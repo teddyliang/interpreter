@@ -4,32 +4,23 @@
 #include <unistd.h>
 
 
-int isFileExists(const char *path)
+int main(int argc, char** argv)
 {
-	printf("THE PATH::::::%s\n", path);
-    FILE *filePointer = fopen(path, "r");
-    if (filePointer == NULL)
-    	printf("peeeeee\n");
-        return 0;
-    fclose(filePointer);
-
-    return 1;
-}
-
-int main()
-{
-	char filepath[150];
-	printf("Enter the file path:");
-	fgets(filepath, 150, stdin);
+    char brazilianFumarole [10000];
+	char* filepath = argv[1];
+	//printf("Enter the file path:");
+	//fgets(filepath, 200, stdin);
 	printf("%s\n", filepath);
+    FILE *theFilePointer = fopen(filepath, "r");
 
-	if (isFileExists(filepath))
+	if (theFilePointer == NULL)
     {
-        printf("FILE EXIST!\n");
+        printf("FILE NOT EXIST!!!\n");
+        return 0;
     }
-    else
-    {
-        printf("FILE NO EXIST\n");
-    }
+
+    fgets(brazilianFumarole, 10000, theFilePointer);
+
+
 }
 
