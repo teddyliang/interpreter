@@ -3,13 +3,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 int main(int argc, char** argv)
-{
+{   
+    char region [50000];
+    for(int i = 0; i<50000; i++)
+    {
+        region[i] = 0;
+    }
+    
     char brazilianFumarole [10000];
 	char* filepath = argv[1];
-	//printf("Enter the file path:");
-	//fgets(filepath, 200, stdin);
 	printf("%s\n", filepath);
     FILE *theFilePointer = fopen(filepath, "r");
 
