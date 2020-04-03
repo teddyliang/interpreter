@@ -14,8 +14,8 @@ struct tuple
 };
 
 void left(struct tuple *tuplePointer)
-{   
-    printf("In left\n");
+{  
+    //printf("In left\n");
     if(tuplePointer->index!=0)
     {
         tuplePointer->index = tuplePointer->index-1;
@@ -30,7 +30,7 @@ void left(struct tuple *tuplePointer)
 
 void right(struct tuple *tuplePointer)
 {
-    printf("In right\n");
+    //printf("In right\n");
     if(tuplePointer->index<regionLength)
     {
         tuplePointer->index = tuplePointer->index+1;
@@ -43,12 +43,11 @@ void right(struct tuple *tuplePointer)
         exit(0);
     }
 
-    
+   
 }
 
 void plus(struct tuple *tuplePointer, int region[])
 {
-    printf("region value:%d\n", region[tuplePointer->index]);
     if(region[tuplePointer->index] < 256)
     {
         region[tuplePointer->index] += 1;
@@ -61,7 +60,7 @@ void plus(struct tuple *tuplePointer, int region[])
 
 void minus(struct tuple *tuplePointer, int region[])
 {
-    printf("region value:%d\n", region[tuplePointer->index]);
+
     if(region[tuplePointer->index] > 0)
     {
         region[tuplePointer->index] -= 1;
@@ -75,7 +74,7 @@ void minus(struct tuple *tuplePointer, int region[])
 void star(struct tuple *tuplePointer, int region[])
 {
     printf("In star\n");
-    printf("%c\n", (char)(region[tuplePointer->index]));
+    printf("%c", (char)(region[tuplePointer->index]));
 }
 void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFumarole[]);
 
@@ -87,28 +86,33 @@ void open(struct tuple *tuplePointer, int region[], char brazilianFumarole[])
     while(region[tuplePointer->index] != 0)
     {
         tuplePointer->letter++;
-        char command = (char) brazilianFumarole[tuplePointer->letter];
-        while(strcmp(&command, ")") != ascii)
+        char command [2];
+        command[0] = brazilianFumarole[tuplePointer->letter];
+        command[1] = '\0';
+        while(strcmp(command, ")") != 0)
         {
-            printf("%s\n", &command);   
+            printf("Command:%c, thingy: %d\n", command[0], strcmp(command, ")"));
             executeCommand(tuplePointer, region, brazilianFumarole);
             tuplePointer->letter++;
-            command = (char) brazilianFumarole[tuplePointer->letter];
+            command[0] = (char) brazilianFumarole[tuplePointer->letter];
         }
         tuplePointer->letter = letterStart;
     }
-    char command = (char) brazilianFumarole[tuplePointer->letter];
-    while(strcmp(&command, ")") != ascii)
+    char command [2];
+    command[0] = brazilianFumarole[tuplePointer->letter];
+    command[1] = '\0';
+    while(strcmp(command, ")") != 0)
     {
         tuplePointer->letter++;
-        command = (char) brazilianFumarole[tuplePointer->letter];
+        command[0] = (char) brazilianFumarole[tuplePointer->letter];
     }
 }
 
 void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFumarole[])
 {
+    //printf("region index:%d,  region value:%d, code letter: %d\n", tuplePointer->index, region[tuplePointer->index], tuplePointer->letter);
     char command = (char) brazilianFumarole[tuplePointer->letter];
-    printf("%c\n", command);
+    //printf("executeCommand %c\n", command);
     if(strcmp(&command, "<") == ascii)
     {
         left(tuplePointer);
@@ -138,10 +142,14 @@ void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFuma
         printf("uneven/mismatched parentheses\n");
         exit(0);
     }
+    // else if(tuplePointer->letter == 10)
+    // {
+    //     exit(0);
+    // }
 }
 
 int main(int argc, char** argv)
-{   
+{  
     int region [regionLength];
     for(int i = 0; i<regionLength; i++)
     {
@@ -149,11 +157,11 @@ int main(int argc, char** argv)
     }
 
     char brazilianFumarole [codeLength];
-	char* filepath = argv[1];
-	printf("%s\n", filepath);
+    char* filepath = argv[1];
+    //printf("%s\n", filepath);
     FILE *theFilePointer = fopen(filepath, "r");
 
-	if (theFilePointer == NULL)
+    if (theFilePointer == NULL)
     {
         printf("FILE NOT EXIST!!!\n");
         return 0;
@@ -181,4 +189,3 @@ int main(int argc, char** argv)
     }
 
 }
-
