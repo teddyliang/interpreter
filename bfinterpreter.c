@@ -48,7 +48,7 @@ void right(struct tuple *tuplePointer)
 
 void plus(struct tuple *tuplePointer, int region[])
 {
-    if(region[tuplePointer->index] < 256)
+    if(region[tuplePointer->index] < 255)
     {
         region[tuplePointer->index] += 1;
     }
@@ -73,7 +73,7 @@ void minus(struct tuple *tuplePointer, int region[])
 
 void star(struct tuple *tuplePointer, int region[])
 {
-    printf("In star\n");
+    //printf("In star\n");
     printf("%c", (char)(region[tuplePointer->index]));
 }
 void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFumarole[]);
@@ -81,17 +81,18 @@ void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFuma
 
 void open(struct tuple *tuplePointer, int region[], char brazilianFumarole[])
 {
-    printf("In open\n");
+    //printf("In open\n");
     const int letterStart = tuplePointer->letter;
     while(region[tuplePointer->index] != 0)
-    {
+    {   
         tuplePointer->letter++;
         char command [2];
         command[0] = brazilianFumarole[tuplePointer->letter];
         command[1] = '\0';
+        //printf("Command:%c\n", command[0]);
         while(strcmp(command, ")") != 0)
         {
-            printf("Command:%c, thingy: %d\n", command[0], strcmp(command, ")"));
+            //printf("Command:%c, thingy: %d\n", command[0], strcmp(command, ")"));
             executeCommand(tuplePointer, region, brazilianFumarole);
             tuplePointer->letter++;
             command[0] = (char) brazilianFumarole[tuplePointer->letter];
@@ -101,11 +102,21 @@ void open(struct tuple *tuplePointer, int region[], char brazilianFumarole[])
     char command [2];
     command[0] = brazilianFumarole[tuplePointer->letter];
     command[1] = '\0';
-    while(strcmp(command, ")") != 0)
+    int parenCounter = 0;
+    while(parenCounter<1)
     {
         tuplePointer->letter++;
         command[0] = (char) brazilianFumarole[tuplePointer->letter];
+        if(strcmp(command, "(") == 0)
+        {
+            parenCounter--;
+        }
+        else if (strcmp(command, ")") == 0)
+        {
+            parenCounter++;
+        }
     }
+
 }
 
 void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFumarole[])
@@ -139,13 +150,18 @@ void executeCommand(struct tuple *tuplePointer, int region[], char brazilianFuma
     }
     else if (strcmp(&command, ")") == ascii)
     {
+        for(int i=0; i<100; i++)
+        {   
+            printf("%d,", region[i]);
+        }
         printf("uneven/mismatched parentheses\n");
+
         exit(0);
     }
-    // else if(tuplePointer->letter == 10)
-    // {
-    //     exit(0);
-    // }
+    else if(tuplePointer->letter == 1000)
+    {
+        exit(0);
+    }
 }
 
 int main(int argc, char** argv)
